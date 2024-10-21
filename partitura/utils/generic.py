@@ -243,7 +243,8 @@ class ReplaceRefMixin(object):
                             """.format(
                                         o_el, o_el.start, o_el.end
                                     )
-                                )
+                                ) if o_el is not None
+                                else "None reference found in o_map"
                             )
                             o_list_new.append(None)
 
@@ -258,7 +259,8 @@ class ReplaceRefMixin(object):
                         {} start={} end={}, substituting None
                         """.format(
                                     o, o.start, o.end
-                                )
+                                ) if o is not None
+                                else "None reference found in o_map"
                             )
                         )
                         o_new = None
