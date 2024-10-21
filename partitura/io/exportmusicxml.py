@@ -137,6 +137,10 @@ def make_note_el(note, dur, voice, counter, n_of_staves):
     if voice not in (None, 0):
         etree.SubElement(note_e, "voice").text = "{}".format(voice)
 
+    if note.stem_direction is not None:
+        stem_e = etree.SubElement(note_e, "stem")
+        stem_e.text = note.stem_direction
+
     if note.fermata is not None:
         notations.append(etree.Element("fermata"))
 
@@ -666,7 +670,7 @@ def merge_measure_contents(notes, other, measure_start):
             elif gap > 0:
                 e = etree.Element("forward")
                 ee = etree.SubElement(e, "duration")
-                ee.text = "{:d}".format(gap)
+                ee.text = "{:d}".format(int(gap))
                 result.append(e)
 
         result.extend([e for _, _, e in elements])
@@ -1061,8 +1065,8 @@ def save_musicxml(
             part_e.append(etree.Comment(MEASURE_SEP_COMMENT))
             attrib = {}
 
-            if measure.number is not None:
-                attrib["number"] = str(measure.number)
+            if measure.name is not None:
+                attrib["number"] = str(measure.name)
 
             measure_e = etree.SubElement(part_e, "measure", **attrib)
             contents = linearize_measure_contents(

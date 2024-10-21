@@ -1696,6 +1696,9 @@ class GenericNote(TimedObject):
         appearance of this note (with respect to other notes) in the
         document in case the Note belongs to a part that was imported
         from MusicXML. Defaults to None.
+    stem_direction : str, optional
+        The stem direction of the note. Can be 'up', 'down', or None.
+        Defaults to None.
 
     """
 
@@ -1708,10 +1711,13 @@ class GenericNote(TimedObject):
         articulations=None,
         ornaments=None,
         doc_order=None,
+        stem_direction=None,
         **kwargs,
     ):
         self._sym_dur = None
+
         super().__init__(**kwargs)
+
         self.voice = voice
         self.id = id
         self.staff = staff
@@ -1719,7 +1725,7 @@ class GenericNote(TimedObject):
         self.articulations = articulations
         self.ornaments = ornaments
         self.doc_order = doc_order
-
+        self.stem_direction = stem_direction if stem_direction in ("up", "down") else None
         # these attributes are set after the instance is constructed
         self.fermata = None
         self.tie_prev = None
@@ -3839,11 +3845,8 @@ def add_measures(part):
                 if existing_measure.start.t == measure_start:
                     assert existing_measure.end.t > pos
                     pos = existing_measure.end.t
-                    if existing_measure.number != 0:
-                        # if existing_measure is a match anacrusis measure,
-                        # keep number 0
-                        existing_measure.number = mcounter
-                        mcounter += 1
+                    existing_measure.number = mcounter
+                    mcounter += 1
                     continue
 
                 else:
