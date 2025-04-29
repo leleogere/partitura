@@ -1766,6 +1766,7 @@ class GenericNote(TimedObject):
                 "slur_starts",
                 "tuplet_stops",
                 "tuplet_starts",
+                "fermata",
             ]
         )
 
@@ -2032,6 +2033,7 @@ class Note(GenericNote):
         self.octave = octave
         self.alter = alter
         self.beam = None
+        self._ref_attrs.append("beam")
 
     def assign_beam(self, beam):
         self.beam = beam
@@ -2143,6 +2145,7 @@ class Beam(TimedObject):
         super().__init__()
         self.id = id
         self.notes = []
+        self._ref_attrs.append("notes")
 
     def append(self, note):
         note.beam = self
@@ -2591,6 +2594,7 @@ class Fermata(TimedObject):
         super().__init__()
         # ref(erent) can be a note or a barline
         self.ref = ref
+        self._ref_attrs.append("ref")
 
     def __str__(self):
         return f"{super().__str__()} ref={self.ref}"
