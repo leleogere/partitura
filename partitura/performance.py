@@ -8,6 +8,7 @@ notes as well as continuous control parameters, such as sustain pedal.
 """
 
 
+from collections import defaultdict
 from typing import Union, List, Optional, Iterator, Iterable as Itertype
 import numpy as np
 from partitura.utils import note_array_from_part_list
