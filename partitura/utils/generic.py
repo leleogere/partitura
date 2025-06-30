@@ -225,14 +225,7 @@ class ReplaceRefMixin(object):
                             o_list_new.append(o_map[o_el])
                         else:
                             warnings.warn(
-                                dedent(
-                                    """reference not found in
-                            o_map: {} start={} end={}, substituting None
-                            """.format(
-                                        o_el, o_el.start, o_el.end
-                                    )
-                                ) if o_el is not None
-                                else "None reference found in o_map"
+                                f"reference not found in o_map: {o_el}, substituting None"
                             )
                             o_list_new.append(None)
 
@@ -242,14 +235,7 @@ class ReplaceRefMixin(object):
                         o_new = o_map[o]
                     else:
                         warnings.warn(
-                            dedent(
-                                """reference not found in o_map:
-                        {} start={} end={}, substituting None
-                        """.format(
-                                    o, o.start, o.end
-                                ) if o is not None
-                                else "None reference found in o_map"
-                            )
+                            f"reference not found in o_map: {o}, substituting None"
                         )
                         o_new = None
                     setattr(self, attr, o_new)
